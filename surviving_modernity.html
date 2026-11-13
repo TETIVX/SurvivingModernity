@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Surviving Modernity — Blueprint for the Digital Age</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0fdfa',
+              100: '#ccfbf1',
+              400: '#2dd4bf',
+              500: '#14b8a6',
+              600: '#0d9488',
+              900: '#134e4a',
+            },
+            accent: {
+              amber: '#f59e0b',
+              violet: '#8b5cf6',
+              rose: '#f43f5e'
+            }
+          },
+          animation: {
+            'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'float': 'float 6s ease-in-out infinite',
+            'glow': 'glow 3s ease-in-out infinite alternate',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-8px)' },
+            },
+            glow: {
+              '0%': { boxShadow: '0 0 15px rgba(45, 212, 191, 0.2)' },
+              '100%': { boxShadow: '0 0 30px rgba(45, 212, 191, 0.6)' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts & FontAwesome Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      background-image: radial-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.95)), url('./background.png');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+    }
+    
+    .light body {
+      background-image: radial-gradient(rgba(248, 250, 252, 0.9), rgba(241, 245, 249, 0.96)), url('./background.png');
+    }
+
+    h1, h2, h3, .font-heading {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    /* Custom Glassmorphism Styles */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .light .glass-card {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.05);
+    }
+
+    .glass-nav {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    
+    .light .glass-nav {
+      background: rgba(248, 250, 252, 0.85);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    /* Magnetic Interactive Button Styling */
+    .btn-magnetic {
+      transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.2s ease, background 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-magnetic:hover {
+      transform: translateY(-2px) scale(1.02);
+    }
+    
+    .btn-magnetic:active {
+      transform: translateY(1px) scale(0.98);
+    }
+
+    /* Subtle Ripple Effect Overlay */
+    .btn-magnetic::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 300%;
+      height: 300%;
+      background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%);
+      transform: translate(-50%, -50%) scale(0);
+      opacity: 0;
+      transition: transform 0.5s ease-out, opacity 0.3s ease-out;
+      pointer-events: none;
+    }
+
+    .btn-magnetic:active::after {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+      transition: 0s;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    .light ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #2dd4bf;
+    }
+  </style>
+</head>
+
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col selection:bg-brand-500 selection:text-white transition-colors duration-300 dark">
+
+  <!-- ==================== HEADER & NAVBAR ==================== -->
+  <header class="sticky top-0 z-40 glass-nav transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center gap-3 group" onclick="soundEngine.play('pop')">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-brand-400 flex items-center justify-center text-slate-950 font-bold text-xl shadow-lg shadow-brand-500/20 group-hover:scale-105 transition-transform">
+          <i class="fa-solid to-slate-950 fa-compass"></i>
+        </div>
+        <div>
+          <span class="font-heading font-bold text-xl tracking-tight text-slate-100 dark:text-white group-hover:text-brand-400 transition-colors">
+            Surviving<span class="text-brand-400">Modernity</span>
+          </span>
+          <span class="block text-[10px] uppercase tracking-widest text-slate-400 font-semibold">2026 Edition</span>
+        </div>
+      </a>
+
+      <!-- Navigation Links -->
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+        <a href="#articles" class="hover:text-brand-400 transition-colors hover-sound">Frameworks</a>
+        <a href="#calculator" class="hover:text-brand-400 transition-colors hover-sound">Overload Index</a>
+        <a href="#daily-thought" class="hover:text-brand-400 transition-colors hover-sound">Daily Philosophy</a>
+      </nav>
+
+      <!-- Action Controls & Toggles -->
+      <div class="flex items-center gap-3">
+        <!-- SFX Toggle Button -->
+        <button id="sfx-toggle" onclick="toggleAudioSFX()" class="btn-magnetic p-2.5 rounded-xl glass-card text-slate-300 hover:text-white transition-colors flex items-center gap-2 text-xs font-semibold" title="Toggle Sound FX">
+          <i id="sfx-icon" class="fa-solid fa-volume-high text-brand-400"></i>
+          <span class="hidden sm:inline" id="sfx-status">SFX On</span>
+        </button>
+
+        <!-- Theme Toggle Button -->
+        <button id="theme-toggle" onclick="toggleTheme()" class="btn-magnetic p-2.5 rounded-xl glass-card text-slate-300 hover:text-white transition-colors" title="Toggle Theme">
+          <i id="theme-icon" class="fa-solid fa-moon text-amber-400"></i>
+        </button>
+
+        <!-- Unplug / Focus Timer Button -->
+        <button onclick="openUnplugModal()" class="btn-magnetic px-4 py-2.5 rounded-xl bg-gradient-to-r from-brand-500 to-brand-600 text-slate-950 font-bold text-sm shadow-md hover:shadow-brand-500/25 flex items-center gap-2">
+          <i class="fa-solid fa-hourglass-half"></i>
+          <span>Unplug Timer</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16">
+
+    <!-- ==================== HERO SECTION ==================== -->
+    <section class="relative rounded-3xl overflow-hidden glass-card p-8 sm:p-12 lg:p-16 border border-slate-800">
+      <!-- Ambient Background Glows -->
+      <div class="absolute -top-24 -left-24 w-96 h-96 bg-brand-500/10 rounded-full blur-3xl pointer-events-none animate-pulse-slow"></div>
+      <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-accent-violet/10 rounded-full blur-3xl pointer-events-none animate-pulse-slow"></div>
+
+      <div class="relative z-10 max-w-3xl space-y-6">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-brand-500/10 text-brand-400 border border-brand-500/20">
+          <span class="w-2 h-2 rounded-full bg-brand-400 animate-ping"></span>
+          Digital Sanity Protocol v2.4
+        </div>
+        
+        <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white leading-tight">
+          Reclaim Your Attention in an Era of <span class="bg-gradient-to-r from-brand-400 via-teal-300 to-accent-amber bg-clip-text text-transparent">Hyper-Distraction</span>.
+        </h1>
+
+        <p class="text-lg text-slate-300 font-normal leading-relaxed">
+          Modern life presents an unceasing torrent of notifications, algorithmic noise, and cognitive fatigue. <i>Surviving Modernity</i> offers pragmatic frameworks, deep focus tactics, and interactive tools to rebuild your mental clarity.
+        </p>
+
+        <div class="flex flex-wrap items-center gap-4 pt-4">
+          <a href="#calculator" onclick="soundEngine.play('pop')" class="btn-magnetic px-6 py-3.5 rounded-xl bg-brand-500 text-slate-950 font-bold text-base shadow-lg shadow-brand-500/20 hover:bg-brand-400 flex items-center gap-2">
+            <span>Assess Overload Level</span>
+            <i class="fa-solid fa-arrow-right text-xs"></i>
+          </a>
+          
+          <a href="#articles" onclick="soundEngine.play('pop')" class="btn-magnetic px-6 py-3.5 rounded-xl glass-card text-white font-semibold text-base hover:bg-white/10 flex items-center gap-2">
+            <i class="fa-solid fa-book-open text-brand-400"></i>
+            <span>Explore Blueprints</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== MODERNITY OVERLOAD INDEX (WIDGET) ==================== -->
+    <section id="calculator" class="glass-card rounded-3xl p-6 sm:p-10 border border-slate-800 relative">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 border-b border-slate-800 pb-6">
+        <div>
+          <span class="text-brand-400 text-xs font-bold uppercase tracking-wider">Interactive Assessment</span>
+          <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">Modernity Overload Index (MOI)</h2>
+          <p class="text-slate-400 text-sm mt-1">Adjust the parameters below to compute your current digital fatigue index.</p>
+        </div>
+
+        <!-- Saved History Badge -->
+        <div class="bg-slate-800/80 rounded-2xl p-4 border border-slate-700/60 flex items-center gap-4">
+          <div class="w-12 h-12 rounded-xl bg-brand-500/10 flex items-center justify-center text-brand-400 text-xl font-bold">
+            <i class="fa-solid fa-chart-line"></i>
+          </div>
+          <div>
+            <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Last Stored Score</div>
+            <div id="saved-score-display" class="text-xl font-bold text-white">Not Calculated</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <!-- Interactive Controls -->
+        <div class="lg:col-span-7 space-y-6">
+          
+          <!-- Slider 1 -->
+          <div class="space-y-2">
+            <div class="flex justify-between text-sm font-semibold">
+              <label for="screen-time" class="text-slate-200">Daily Non-Work Screen Time</label>
+              <span id="screen-time-val" class="text-brand-400">4 Hours</span>
+            </div>
+            <input type="range" id="screen-time" min="1" max="12" value="4" step="0.5" oninput="updateCalculator()" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-brand-400">
+            <div class="flex justify-between text-[11px] text-slate-500">
+              <span>Minimal (1h)</span>
+              <span>Excessive (12h+)</span>
+            </div>
+          </div>
+
+          <!-- Slider 2 -->
+          <div class="space-y-2">
+            <div class="flex justify-between text-sm font-semibold">
+              <label for="notification-freq" class="text-slate-200">Notification Interruptions / Hour</label>
+              <span id="notification-val" class="text-brand-400">15 / hr</span>
+            </div>
+            <input type="range" id="notification-freq" min="0" max="60" value="15" step="5" oninput="updateCalculator()" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-brand-400">
+            <div class="flex justify-between text-[11px] text-slate-500">
+              <span>Zen (0)</span>
+              <span>Constant (60+)</span>
+            </div>
+          </div>
+
+          <!-- Slider 3 -->
+          <div class="space-y-2">
+            <div class="flex justify-between text-sm font-semibold">
+              <label for="sleep-quality" class="text-slate-200">Quality Sleep Score</label>
+              <span id="sleep-val" class="text-brand-400">6 / 10</span>
+            </div>
+            <input type="range" id="sleep-quality" min="1" max="10" value="6" step="1" oninput="updateCalculator()" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-brand-400">
+            <div class="flex justify-between text-[11px] text-slate-500">
+              <span>Poor (1)</span>
+              <span>Restorative (10)</span>
+            </div>
+          </div>
+
+          <!-- Checkboxes for habits -->
+          <div class="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <label class="flex items-center gap-3 p-3 rounded-xl bg-slate-800/40 border border-slate-700/50 cursor-pointer hover:bg-slate-800 transition-colors">
+              <input type="checkbox" id="habit-bed" onchange="updateCalculator()" class="w-4 h-4 rounded text-brand-500 focus:ring-brand-400 bg-slate-900 border-slate-700">
+              <span class="text-xs text-slate-300 font-medium">Check phone first 10m of morning</span>
+            </label>
+            <label class="flex items-center gap-3 p-3 rounded-xl bg-slate-800/40 border border-slate-700/50 cursor-pointer hover:bg-slate-800 transition-colors">
+              <input type="checkbox" id="habit-multi" onchange="updateCalculator()" class="w-4 h-4 rounded text-brand-500 focus:ring-brand-400 bg-slate-900 border-slate-700">
+              <span class="text-xs text-slate-300 font-medium">Frequent media multitasking</span>
+            </label>
+          </div>
+
+        </div>
+
+        <!-- Result Card Gauge -->
+        <div class="lg:col-span-5 bg-gradient-to-b from-slate-800/80 to-slate-900/90 rounded-2xl p-6 border border-slate-700/80 flex flex-col items-center justify-between text-center space-y-6">
+          <div class="text-xs font-semibold uppercase tracking-wider text-slate-400">Overload Meter</div>
+          
+          <div class="relative flex items-center justify-center">
+            <!-- Circular SVG Gauge -->
+            <svg class="w-44 h-44 transform -rotate-90">
+              <circle cx="88" cy="88" r="70" stroke="currentColor" stroke-width="12" class="text-slate-800" fill="transparent" />
+              <circle id="gauge-circle" cx="88" cy="88" r="70" stroke="currentColor" stroke-width="12" class="text-brand-400 transition-all duration-700 ease-out" stroke-dasharray="440" stroke-dashoffset="220" stroke-linecap="round" fill="transparent" />
+            </svg>
+            <div class="absolute flex flex-col items-center justify-center">
+              <span id="overload-score" class="text-4xl font-extrabold text-white">42%</span>
+              <span id="overload-status" class="text-xs font-semibold text-brand-400 uppercase mt-1">Moderate</span>
+            </div>
+          </div>
+
+          <p id="overload-recommendation" class="text-xs text-slate-300 leading-relaxed max-w-xs">
+            Your load is manageable, but attention fragmentation is present. Try initiating a 30-minute tech sunset before sleep.
+          </p>
+
+          <button onclick="saveOverloadScore()" class="btn-magnetic w-full py-2.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-semibold text-xs transition-colors flex items-center justify-center gap-2">
+            <i class="fa-solid fa-floppy-disk"></i>
+            <span>Log Assessment to Storage</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== DAILY THOUGHT / QUOTE ENGINE ==================== -->
+    <section id="daily-thought" class="glass-card rounded-3xl p-6 sm:p-8 border border-slate-800 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="space-y-2 flex-grow">
+        <div class="flex items-center gap-2 text-brand-400 text-xs font-bold uppercase tracking-wider">
+          <i class="fa-solid fa-quote-left"></i>
+          <span>Perspective Snapshot</span>
+        </div>
+        <blockquote id="quote-text" class="text-lg sm:text-xl font-medium italic text-slate-100 leading-snug">
+          "The ability to stay focused on what matters is the ultimate superpower in a world engineered to distract you."
+        </blockquote>
+        <p id="quote-author" class="text-xs text-slate-400 font-semibold">— Deep Work Manifesto</p>
+      </div>
+
+      <button onclick="generateNextQuote()" class="btn-magnetic px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-brand-400 border border-slate-700 font-semibold text-xs whitespace-nowrap flex items-center gap-2">
+        <i class="fa-solid fa-shuffle"></i>
+        <span>New Insight</span>
+      </button>
+    </section>
+
+    <!-- ==================== ARTICLE & FRAMEWORK LOG (FILTERABLE) ==================== -->
+    <section id="articles" class="space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div>
+          <span class="text-brand-400 text-xs font-bold uppercase tracking-wider">Curated Strategy</span>
+          <h2 class="text-3xl font-bold text-white mt-1">Survival Frameworks</h2>
+        </div>
+
+        <!-- Search & Filter Controls -->
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+          <div class="relative">
+            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+            <input type="text" id="article-search" oninput="filterArticles()" placeholder="Search frameworks..." class="w-full sm:w-48 pl-8 pr-3 py-1.5 text-xs rounded-xl bg-slate-800/80 border border-slate-700 text-slate-200 placeholder-slate-400 focus:outline-none focus:border-brand-400 transition-colors">
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2" id="filter-buttons">
+            <button onclick="setCategory('all', event)" class="filter-btn active btn-magnetic px-4 py-2 rounded-xl text-xs font-bold bg-brand-500 text-slate-950 transition-colors">All</button>
+            <button onclick="setCategory('tech', event)" class="filter-btn btn-magnetic px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition-colors">Tech Balance</button>
+            <button onclick="setCategory('mind', event)" class="filter-btn btn-magnetic px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition-colors">Mindfulness</button>
+            <button onclick="setCategory('focus', event)" class="filter-btn btn-magnetic px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition-colors">Deep Focus</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Articles Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="articles-container">
+        
+        <!-- Article Card 1 -->
+        <article class="article-card glass-card rounded-2xl p-6 border border-slate-800 flex flex-col justify-between hover:border-brand-500/40 transition-all duration-300" data-category="tech">
+          <div class="space-y-4">
+            <div class="flex justify-between items-center text-xs">
+              <span class="px-2.5 py-1 rounded-md bg-cyan-500/10 text-cyan-400 font-semibold border border-cyan-500/20">Tech Balance</span>
+              <span class="text-slate-500">5 min read</span>
+            </div>
+            <h3 class="text-xl font-bold text-white hover:text-brand-400 transition-colors cursor-pointer">The Notification Audit</h3>
+            <p class="text-slate-400 text-sm leading-relaxed">
+              Systematically disabling non-essential alerts reduces daily context switching by up to 60%. Here is a step-by-step triage guide.
+            </p>
+          </div>
+          <div class="pt-6 mt-4 border-t border-slate-800/60 flex justify-between items-center">
+            <span class="text-xs text-slate-400">By Marcus Vance</span>
+            <button onclick="toggleArticleModal('The Notification Audit', 'Notification overload fractures executive function. To perform an audit: 1) Turn off all push notifications except direct human communication. 2) Schedule batch times for email. 3) Utilize grayscale mode on mobile to diminish visual rewards.')" class="btn-magnetic text-xs font-bold text-brand-400 hover:underline flex items-center gap-1">
+              Read Guide <i class="fa-solid fa-chevron-right text-[10px]"></i>
+            </button>
+          </div>
+        </article>
+
+        <!-- Article Card 2 -->
+        <article class="article-card glass-card rounded-2xl p-6 border border-slate-800 flex flex-col justify-between hover:border-brand-500/40 transition-all duration-300" data-category="focus">
+          <div class="space-y-4">
+            <div class="flex justify-between items-center text-xs">
+              <span class="px-2.5 py-1 rounded-md bg-purple-500/10 text-purple-400 font-semibold border border-purple-500/20">Deep Focus</span>
+              <span class="text-slate-500">7 min read</span>
+            </div>
+            <h3 class="text-xl font-bold text-white hover:text-brand-400 transition-colors cursor-pointer">Monastic Work Blocks</h3>
+            <p class="text-slate-400 text-sm leading-relaxed">
+              Carving out 90-minute uninterrupted deep work windows protects your cognitive bandwidth from modern ambient noise.
+            </p>
+          </div>
+          <div class="pt-6 mt-4 border-t border-slate-800/60 flex justify-between items-center">
+            <span class="text-xs text-slate-400">By Dr. Elena Rostova</span>
+            <button onclick="toggleArticleModal('Monastic Work Blocks', 'Human brain cycles peak during 90-minute ultradian rhythm cycles. Set strict boundaries: zero browser tabs open except active task resources, phone in another room, and clear goal definition prior to timer start.')" class="btn-magnetic text-xs font-bold text-brand-400 hover:underline flex items-center gap-1">
+              Read Guide <i class="fa-solid fa-chevron-right text-[10px]"></i>
+            </button>
+          </div>
+        </article>
+
+        <!-- Article Card 3 -->
+        <article class="article-card glass-card rounded-2xl p-6 border border-slate-800 flex flex-col justify-between hover:border-brand-500/40 transition-all duration-300" data-category="mind">
+          <div class="space-y-4">
+            <div class="flex justify-between items-center text-xs">
+              <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/20">Mindfulness</span>
+              <span class="text-slate-500">4 min read</span>
+            </div>
+            <h3 class="text-xl font-bold text-white hover:text-brand-400 transition-colors cursor-pointer">Analog Sanctuary Creation</h3>
+            <p class="text-slate-400 text-sm leading-relaxed">
+              Designing physical spaces in your home completely void of microprocessors restores nervous system baseline equilibrium.
+            </p>
+          </div>
+          <div class="pt-6 mt-4 border-t border-slate-800/60 flex justify-between items-center">
+            <span class="text-xs text-slate-400">By Sarah Jenkins</span>
+            <button onclick="toggleArticleModal('Analog Sanctuary Creation', 'Designate at least one area—like your bedroom or reading chair—as a zero-device zone. Replace screens with physical books, notebooks, and natural lighting to signal rest to your nervous system.')" class="btn-magnetic text-xs font-bold text-brand-400 hover:underline flex items-center gap-1">
+              Read Guide <i class="fa-solid fa-chevron-right text-[10px]"></i>
+            </button>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="glass-card border-t border-slate-800 mt-20 py-10 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+      <div class="flex items-center gap-2">
+        <i class="fa-solid fa-compass text-brand-400"></i>
+        <span>© 2026 Surviving Modernity Protocol. Built for digital sanity.</span>
+      </div>
+      <div class="flex gap-6">
+        <a href="#" class="hover:text-brand-400 transition-colors">Privacy Ethics</a>
+        <a href="#" class="hover:text-brand-400 transition-colors">Open Blueprint</a>
+        <a href="#" class="hover:text-brand-400 transition-colors">System Status</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== UNPLUG & FOCUS TIMER MODAL ==================== -->
+  <div id="unplug-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="glass-card rounded-3xl max-w-md w-full p-8 border border-slate-700 relative text-center space-y-6 transform scale-95 transition-transform duration-300">
+      <button onclick="closeUnplugModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2 text-sm">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="w-16 h-16 rounded-2xl bg-brand-500/10 border border-brand-500/20 text-brand-400 flex items-center justify-center text-2xl mx-auto animate-pulse-slow">
+        <i class="fa-solid fa-brain"></i>
+      </div>
+
+      <div>
+        <h3 class="text-2xl font-bold text-white">Micro-Break Focus Reset</h3>
+        <p class="text-slate-400 text-xs mt-1">Choose a duration, step back, and reset your executive function.</p>
+      </div>
+
+      <!-- Preset Selection -->
+      <div class="flex justify-center gap-2">
+        <button onclick="setTimerPreset(300)" class="preset-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">5m</button>
+        <button onclick="setTimerPreset(900)" class="preset-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">15m</button>
+        <button onclick="setTimerPreset(1500)" class="preset-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">25m</button>
+      </div>
+
+      <!-- Timer Counter -->
+      <div class="py-4">
+        <div id="modal-timer-display" class="text-5xl font-extrabold text-brand-400 font-heading">05:00</div>
+        <div class="text-[11px] text-slate-500 uppercase tracking-widest mt-2 font-semibold">Mindful Rest Window</div>
+      </div>
+
+      <!-- Controls -->
+      <div class="flex gap-3 justify-center">
+        <button id="timer-start-btn" onclick="startFocusTimer()" class="btn-magnetic px-6 py-2.5 rounded-xl bg-brand-500 text-slate-950 font-bold text-xs flex items-center gap-2">
+          <i class="fa-solid fa-play"></i> Start Reset
+        </button>
+        <button onclick="resetFocusTimer()" class="btn-magnetic px-4 py-2.5 rounded-xl bg-slate-800 text-slate-300 hover:text-white font-bold text-xs">
+          Reset
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== ARTICLE READER MODAL ==================== -->
+  <div id="article-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="glass-card rounded-3xl max-w-lg w-full p-8 border border-slate-700 relative space-y-4">
+      <button onclick="toggleArticleModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <h3 id="modal-article-title" class="text-2xl font-bold text-white">Article Title</h3>
+      <div id="modal-article-content" class="text-slate-300 text-sm leading-relaxed space-y-2">
+        Article content preview...
+      </div>
+      <div class="pt-4 flex justify-end">
+        <button onclick="toggleArticleModal()" class="btn-magnetic px-4 py-2 rounded-xl bg-slate-800 text-slate-200 text-xs font-bold">
+          Close Reader
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== JAVASCRIPT & AUDIO ENGINE ==================== -->
+  <script>
+    /* =========================================
+       1. SYNTHESIZED WEB AUDIO & AUDIO ASSET ENGINE
+       ========================================= */
+    class HybridAudioSFXEngine {
+      constructor() {
+        this.ctx = null;
+        this.enabled = localStorage.getItem('surviving_modernity_sfx') !== 'false';
+        this.audioFile = new Audio('./sounds/click.mp3');
+        this.audioFile.volume = 0.4;
+      }
+
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) {
+            this.ctx = new AudioContext();
+          }
+        }
+      }
+
+      play(type) {
+        if (!this.enabled) return;
+
+        // Try playing native local sound asset first
+        if (type === 'pop') {
+          this.audioFile.currentTime = 0;
+          const playPromise = this.audioFile.play();
+          if (playPromise !== undefined) {
+            playPromise.catch(() => {
+              // Fallback to Web Audio API synthesizer if asset unavailable
+              this.playSynth('pop');
+            });
+            return;
+          }
+        }
+
+        this.playSynth(type);
+      }
+
+      playSynth(type) {
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+
+        const now = this.ctx.currentTime;
+        if (type === 'pop' || type === 'hover') {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          const freq = type === 'pop' ? 600 : 800;
+          osc.frequency.setValueAtTime(freq, now);
+          osc.frequency.exponentialRampToValueAtTime(120, now + (type === 'pop' ? 0.05 : 0.02));
+          gain.gain.setValueAtTime(type === 'pop' ? 0.15 : 0.02, now);
+          gain.gain.linearRampToValueAtTime(0.001, now + (type === 'pop' ? 0.05 : 0.02));
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now);
+          osc.stop(now + (type === 'pop' ? 0.05 : 0.02));
+        } else if (type === 'chime') {
+          [523.25, 659.25, 783.99].forEach((f, i) => {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(f, now + i * 0.06);
+            gain.gain.setValueAtTime(0.08, now + i * 0.06);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.06 + 0.4);
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start(now + i * 0.06);
+            osc.stop(now + i * 0.06 + 0.4);
+          });
+        }
+      }
+    }
+
+    const soundEngine = new HybridAudioSFXEngine();
+
+    function toggleAudioSFX() {
+      soundEngine.enabled = !soundEngine.enabled;
+      localStorage.setItem('surviving_modernity_sfx', soundEngine.enabled);
+      const statusText = document.getElementById('sfx-status');
+      const icon = document.getElementById('sfx-icon');
+      
+      if (soundEngine.enabled) {
+        statusText.innerText = 'SFX On';
+        icon.className = 'fa-solid fa-volume-high text-brand-400';
+        soundEngine.play('chime');
+      } else {
+        statusText.innerText = 'SFX Off';
+        icon.className = 'fa-solid fa-volume-xmark text-slate-500';
+      }
+    }
+
+    /* =========================================
+       2. TIMER PRESETS & SEARCH FILTERING
+       ========================================= */
+    let currentCategory = 'all';
+    let timerSeconds = 300;
+
+    function setTimerPreset(seconds) {
+      soundEngine.play('pop');
+      timerSeconds = seconds;
+      updateTimerDisplay();
+    }
+
+    function setCategory(cat, event) {
+      currentCategory = cat;
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      filterBtns.forEach(btn => {
+        btn.classList.remove('bg-brand-500', 'text-slate-950');
+        btn.classList.add('bg-slate-800', 'text-slate-300');
+      });
+      event.target.classList.remove('bg-slate-800', 'text-slate-300');
+      event.target.classList.add('bg-brand-500', 'text-slate-950');
+      filterArticles();
+    }
+
+    function filterArticles() {
+      const query = document.getElementById('article-search').value.toLowerCase();
+      const cards = document.querySelectorAll('.article-card');
+
+      cards.forEach(card => {
+        const matchesCategory = currentCategory === 'all' || card.dataset.category === currentCategory;
+        const matchesQuery = card.innerText.toLowerCase().includes(query);
+
+        if (matchesCategory && matchesQuery) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function toggleArticleModal(title = '', content = '') {
+      const modal = document.getElementById('article-modal');
+      const modalTitle = document.getElementById('modal-article-title');
+      const modalContent = document.getElementById('modal-article-content');
+
+      if (title) {
+        modalTitle.innerText = title;
+        modalContent.innerText = content;
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+      } else {
+        modal.classList.add('opacity-0', 'pointer-events-none');
+      }
+    }
+
+    /* =========================================
+       6. DARK / LIGHT THEME TOGGLE
+       ========================================= */
+    function toggleTheme() {
+      soundEngine.play('pop');
+      const html = document.documentElement;
+      const themeIcon = document.getElementById('theme-icon');
+
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        html.classList.add('light');
+        themeIcon.className = 'fa-solid fa-sun text-amber-500';
+      } else {
+        html.classList.remove('light');
+        html.classList.add('dark');
+        themeIcon.className = 'fa-solid fa-moon text-amber-400';
+      }
+    }
+  </script>
+</body>
+</html>
